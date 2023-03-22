@@ -20,7 +20,10 @@
           <el-input v-model="dynamicValidateForm.username"></el-input
         ></el-form-item>
         <el-form-item prop="email" label="你的邮箱" :rules="rules.email">
-          <el-input v-model.trim="dynamicValidateForm.email"></el-input>
+          <el-input
+            type="email"
+            v-model.trim="dynamicValidateForm.email"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="theme" label="邮箱主题" :rules="rules.empty">
           <el-input v-model="dynamicValidateForm.theme"></el-input
@@ -69,7 +72,7 @@ export default {
       },
       rules: {
         email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          { required: true, message: "请输入邮箱地址", trigger: "change" },
           {
             type: "email",
             message: "请输入正确的邮箱地址",
@@ -78,23 +81,32 @@ export default {
         ],
         empty: [{ required: true, validator: validateEmpty, trigger: "blur" }],
       },
+      sendTimer: false, //防止未响应时重复点击发送
     };
   },
   methods: {
     // 校验表单并发送邮件
     submitForm(formName) {
+      if (this.sendTimer) return;
+      this.sendTimer = true; //
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          sendMail(this.dynamicValidateForm).then(async (res) => {
-            if (res.data.status) {
-              // console.log(res);
+          sendMail(this.dynamicValidateForm)
+            .then(async (res) => {
+              if (res.data.status) {
+                console.log(res);
+                this.$message.success(res.data.msg);
+                this.dynamicValidateForm.theme = "";
+                this.dynamicValidateForm.emailInfo = "";
+              } else {
+                this.$message.error(res.data.msg);
+              }
+              this.sendTimer = false; //
+            })
+            .catch(() => {
               this.$message.success(res.data.msg);
-              this.dynamicValidateForm.theme = "";
-              this.dynamicValidateForm.emailInfo = "";
-            } else {
-              this.$message.error(res.data.msg);
-            }
-          });
+              this.sendTimer = false; //
+            });
         } else {
           return false;
         }

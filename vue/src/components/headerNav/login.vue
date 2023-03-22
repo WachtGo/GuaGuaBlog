@@ -361,6 +361,7 @@ export default {
 @media (min-width: 450px) {
 }
 .login {
+  z-index: 99;
   position: relative;
 
   .iconImageWrap {
@@ -377,7 +378,7 @@ export default {
 
   .loginWrap,
   .loginWrap2 {
-    z-index: 999;
+    z-index: 99;
     position: absolute;
     padding: 10px 10px 5px;
     width: 300px;

@@ -42,7 +42,7 @@ router.post('/updateAvatar', auth, async (req, res) => {
         // console.log(resp)
         // console.log(req.body)
         // console.log(resp.avatar.split('3000')[1])
-        if(resp.split('/userImg/')[2] !== 'default6666666.png'){//不能把初始图也删了
+        if(resp.avatar.split('userImg/')[1] !== 'default6666666.png'){//不能把初始图也删了
             await fs.unlink(path.resolve(__dirname, "../public" + resp.avatar.split('57')[1]), (err) => { })
         } 
         await userDB.findByIdAndUpdate({ _id: req.user.id }, req.body).then(async respo => {

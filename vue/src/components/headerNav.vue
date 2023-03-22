@@ -20,7 +20,7 @@
             class="nav_item"
             v-for="(item, index) in navList"
             :key="index"
-            @click="sidebarShow"
+            @click="sidebarShow(false)"
           >
             <router-link :to="item.path">{{ item.title }}</router-link>
           </li>
@@ -53,6 +53,9 @@ export default {
           title: "关于",
         },
       ],
+      sidebar: "",
+      mainview: "",
+      windowTimer: null,
     };
   },
   computed: {
@@ -60,16 +63,37 @@ export default {
       return this.$store.state.userInfo;
     },
   },
+  mounted() {
+    this.sidebar = document.getElementById("sidebar");
+    this.mainview = document.getElementById("main_view");
+    window.onresize = () => {
+      clearTimeout(this.windowTimer);
+      this.windowTimer = setTimeout(() => {
+        if (document.body.clientWidth > 451) {
+          if (this.sidebar.style.display === "none") {
+            this.sidebar.style.display = "block";
+          }
+          if (this.mainview.style.display === "none") {
+            this.mainview.style.display = "block";
+          }
+        }
+      }, 800);
+    };
+  },
   methods: {
+    //移动端时，导航切换会关闭侧边
     sidebarShow(bool) {
-      let sidebar = document.getElementById("sidebar");
-      let mainview = document.getElementById("main_view");
       if (bool) {
-        sidebar.style.display === "block"
-          ? ((sidebar.style.display = "none"),
-            (mainview.style.display = "block"))
-          : ((sidebar.style.display = "block"),
-            (mainview.style.display = "none"));
+        this.sidebar.style.display === "block"
+          ? ((this.sidebar.style.display = "none"),
+            (this.mainview.style.display = "block"))
+          : ((this.sidebar.style.display = "block"),
+            (this.mainview.style.display = "none"));
+      } else {
+        if (this.sidebar.style.display === "block") {
+          this.sidebar.style.display = "none";
+          this.mainview.style.display = "block";
+        }
       }
     },
   },

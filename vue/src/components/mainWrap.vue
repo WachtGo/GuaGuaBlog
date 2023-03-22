@@ -30,7 +30,7 @@ export default {
     // width: 1200px;
 
     #sidebar {
-      z-index: 100;
+      z-index: 98;
       display: none;
       margin: 0 auto;
       position: fixed;

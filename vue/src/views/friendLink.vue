@@ -1,22 +1,25 @@
 <template>
   <div class="friendLink">
-    <div class="link_box" v-for="item in linkData" :key="item.id">
-      <span class="link_name">
-        <b
-          ><i>{{ item.linkname }}：</i></b
-        >
-      </span>
-      <span
-        ><a class="link_address" :href="item.linkurl" target="_blank"
-          ><b
-            ><i>{{ item.linkurl }}</i></b
-          ></a
-        >
-      </span>
-      <div class="link_delete" @click="deletelink(item._id)">
-        <img class="delete_image" src="@/assets/icon/delete.png" alt=" " />
+    <div v-if="linkData.length !== 0">
+      <div class="link_box" v-for="item in linkData" :key="item.id">
+        <span class="link_name">
+          <b
+            ><i>{{ item.linkname }}：</i></b
+          >
+        </span>
+        <span
+          ><a class="link_address" :href="item.linkurl" target="_blank"
+            ><b
+              ><i>{{ item.linkurl }}</i></b
+            ></a
+          >
+        </span>
+        <div class="link_delete" @click="deletelink(item._id)">
+          <img class="delete_image" src="@/assets/icon/delete.png" alt=" " />
+        </div>
       </div>
     </div>
+
     <div class="linkAddBox">
       <span class="linkAddBox_span">添加友链：</span>
       <input
@@ -42,11 +45,11 @@ export default {
   data() {
     return {
       linkData: [
-        {
-          linkname: "My music",
-          linkurl: "https://wacht.xyz",
-          _id: "",
-        },
+        // {
+        //   linkname: "My music",
+        //   linkurl: "https://wacht.xyz",
+        //   _id: "",
+        // },
       ],
       linkbox: {
         linkname: "",

@@ -12,7 +12,7 @@ const request = axios.create({
     // baseURL: 'https://wacht.fun/',
     // baseURL: 'https://biejuanle.icu',
     // changeOrigin: true,
-    // baseURL: 'http://127.0.0.1:3000',
+    // baseURL: 'http://127.0.0.1:80',
     // baseURL: 'http://localhost:3000'
 });
 

@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 //     return value
 // }
 
-const email = async ({ username, email, theme, emailInfo }, send) => {
+const email = async ({ username, email, theme, emailInfo }, res) => {
     // 创建邮件程序
     let transporter = nodemailer.createTransport({
         // 设置qq发送
@@ -30,24 +30,31 @@ const email = async ({ username, email, theme, emailInfo }, send) => {
             text: "已经接收您发送的邮件,我会在看到邮件事件立即回复", // 正文
         }
     ]
-
     // 邮件发送
-    info.forEach(async (item, index) => {
-        await transporter.sendMail(item, (err, info) => {
+    info.forEach((item, index) => {
+        transporter.sendMail(item, async (err, info) => {
             if (err) {
                 console.log('发送失败')
-                return send({
+                return res.send({
                     status: false,
                     msg: '发送失败'
                 })
             }
-            if (index == 1) {
+            if (index === 0) {//表示成功发送邮箱给本人 1369206217@qq.com
                 console.log('发送成功')
-                return send({
+                return res.send({
                     status: true,
                     msg: '已发送邮件'
                 })
             }
+            // else if (index === 1) {
+            // console.log('回复成功')
+            // return {
+            //     status: true,
+            //     msg: '已回复邮件'
+            // }
+            // return result
+            // }
         });
     })
 }

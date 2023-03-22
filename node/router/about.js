@@ -11,8 +11,8 @@ router.post('/sendMail', async (req, res) => {
         theme: req.body.theme,
         emailInfo: req.body.emailInfo,
     }
-    sendMail(info, res.send)
-    // res.send(result)
+    // console.log('发送邮箱res---', res)
+    sendMail(info, res)
 })
 
 
